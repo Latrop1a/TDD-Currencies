@@ -57,4 +57,19 @@ public class MoneyTest {
         assertThat(accountBalance).isEqualTo(Money.parse("USD 456.78"));
     }
 
+    @Test
+    void testReportedBug() {
+        Money accountBalance = Money.nothing(Currency.forSymbol("USD"));
+        accountBalance = accountBalance.plus(Money.parse("VEF 1,000,000.00"));
+        assertThat(accountBalance).isEqualTo(Money.parse("USD 0.00"));
+    }
+
+    @Test
+    void testReportedBugExtended() {
+        Money accountBalance = Money.nothing(Currency.forSymbol("USD"));
+        accountBalance = accountBalance.plus(Money.parse("USD 1,000.00"));
+        accountBalance = accountBalance.minus(Money.parse("EUR 150.00"));
+        assertThat(accountBalance).isEqualTo(Money.parse("USD 1,000.00"));
+    }
+
 }

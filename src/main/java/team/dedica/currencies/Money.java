@@ -32,15 +32,24 @@ public class Money {
         this.currency = currency;
     }
 
+    // Validates that no new currency is added to an existing account
+    private static void validateCurrency(Money start, Money other) {
+        if (!start.currency.equals(other.currency)) {
+            throw new IllegalArgumentException("Currency " + start.currency +" not matching " + other.currency);
+        }
+    }
+
     public Money times(double factor) {
         return new Money(Math.round(amount * factor), currency);
     }
 
     public Money plus(Money other) {
+        validateCurrency(this, other);
         return new Money(amount + other.amount, currency);
     }
 
     public Money minus(Money other) {
+        validateCurrency(this, other);
         return new Money(amount - other.amount, currency);
     }
 
